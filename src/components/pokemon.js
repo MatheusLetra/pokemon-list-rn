@@ -27,7 +27,7 @@ export default function Pokemon (props) {
                 <View style={{flex: 3, backgroundColor: '#f0f0ff', alignItems: 'center', justifyContent:'center'}}>
                     <Image style={{width: 150, height: 150}}
                         source={{uri: imageURL}}/>
-                    <Text style={{marginTop: 40, fontWeight: 'bold', fontSize: 40}}>
+                    <Text style={{marginTop: 40, fontWeight: 'bold', fontSize: 30}}>
                         {'#' + pokemonNumber + ' - ' + name.toUpperCase()}</Text>  
                 </View>
                 <TouchableOpacity style={{flex: 1, backgroundColor: 'rgba(0, 0, 0, 0.7)'}}
@@ -37,7 +37,7 @@ export default function Pokemon (props) {
                 </TouchableOpacity>
             </Modal>
             <TouchableOpacity onPress={showPokemonDetails}>
-                <View style={{alignItems:'center', marginVertical: 20, marginHorizontal: 20}}>
+                <View style={{alignItems:'center', marginVertical: 20, marginHorizontal: 20, backgroundColor: '#EE82EE'}}>
                     <Image style={{ width:75, height: 75}}
                         source={{uri: imageURL}}/>
                     <Text style={{marginTop: 15}}>{'#' + pokemonNumber}</Text>
