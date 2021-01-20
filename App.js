@@ -24,8 +24,10 @@ export default function App() {
       <FlatList 
         data={pokemons}
         keyExtractor={(pokemon) => pokemon.name}
+        numColumns={3}
         contentContainerStyle={{flexGrow: 1}}
         renderItem={PokemonShow}
+       
       />
     </SafeAreaView>
   );
