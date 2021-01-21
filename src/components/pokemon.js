@@ -1,4 +1,4 @@
-import React, {useState} from  'react'
+import React, {useEffect,useState} from  'react'
 import {Modal,View,Image,Text, TouchableOpacity} from 'react-native'
 
 export default function Pokemon (props) {
@@ -10,7 +10,7 @@ export default function Pokemon (props) {
     const pokemonNumber = url.replace('https://pokeapi.co/api/v2/pokemon/','').replace('/','')
     const imageURL = 'https://pokeres.bastionbot.org/images/pokemon/'+ pokemonNumber + '.png'
 
-     const getPokemonDetails =  (name) => {
+    useEffect(() => {
         fetch('https://pokeapi.co/api/v2/pokemon/' + String(name),{
             method: 'GET',
             headers :{
@@ -21,14 +21,13 @@ export default function Pokemon (props) {
             .then(data => {
                setPokemonAbilities(data.abilities)
             })
-    }
+    },[])
 
     const showPokemonDetails = () => {
-        if (modalVisible == false){
-            getPokemonDetails(name)
-        }
         setModalVisible(!modalVisible)
     }
+
+
 
     return(
         <View>
@@ -46,6 +45,11 @@ export default function Pokemon (props) {
                         source={{uri: imageURL}}/>
                     <Text style={{marginTop: 40, fontWeight: 'bold', fontSize: 30}}>
                         {'#' + pokemonNumber + ' - ' + name.toUpperCase()}</Text>  
+                    {pokemonAbilities.map((abilitie) => {
+                            return(
+                                <Text>{abilitie.name}</Text>
+                            )
+                    })}
                 </View>
                 <TouchableOpacity style={{flex: 1, backgroundColor: 'rgba(0, 0, 0, 0.7)'}}
                     onPress={showPokemonDetails}>
