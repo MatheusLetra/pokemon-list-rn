@@ -4,12 +4,29 @@ import {Modal,View,Image,Text, TouchableOpacity} from 'react-native'
 export default function Pokemon (props) {
 
     const [modalVisible,setModalVisible] = useState(false)
+    const [pokemonAbilities, setPokemonAbilities] = useState([])
 
     const {name, url} = props.data.item
     const pokemonNumber = url.replace('https://pokeapi.co/api/v2/pokemon/','').replace('/','')
     const imageURL = 'https://pokeres.bastionbot.org/images/pokemon/'+ pokemonNumber + '.png'
 
+     const getPokemonDetails =  (name) => {
+        fetch('https://pokeapi.co/api/v2/pokemon/' + String(name),{
+            method: 'GET',
+            headers :{
+              'Accept': 'application/json'
+            }
+          })
+          .then(response =>response.json())
+            .then(data => {
+               setPokemonAbilities(data.abilities)
+            })
+    }
+
     const showPokemonDetails = () => {
+        if (modalVisible == false){
+            getPokemonDetails(name)
+        }
         setModalVisible(!modalVisible)
     }
 
@@ -40,7 +57,7 @@ export default function Pokemon (props) {
                 <View style={{alignItems:'center', marginVertical: 20, marginHorizontal: 20, backgroundColor: '#EE82EE'}}>
                     <Image style={{ width:75, height: 75}}
                         source={{uri: imageURL}}/>
-                    <Text style={{marginTop: 15}}>{'#' + pokemonNumber}</Text>
+                    <Text style={{marginTop: 15}}>{'#' + pokemonNumber }</Text>
                 </View>
             </TouchableOpacity>
         </View>
