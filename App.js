@@ -8,7 +8,7 @@ export default function App() {
   const [pokemons, setPokemons] = useState([])
 
   useEffect(() => {
-    fetch('https://pokeapi.co/api/v2/pokemon',{
+    fetch('https://pokeapi.co/api/v2/pokemon/',{
       method: 'GET',
       headers :{
         'Accept': 'application/json'

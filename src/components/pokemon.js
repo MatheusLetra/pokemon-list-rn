@@ -1,16 +1,20 @@
-import React, {useEffect,useState} from  'react'
+import React, {useEffect,useState } from  'react'
 import {Modal,View,Image,Text, TouchableOpacity, StyleSheet} from 'react-native'
 
 export default function Pokemon (props) {
 
     const [modalVisible,setModalVisible] = useState(false)
     const [pokemonAbilities, setPokemonAbilities] = useState([])
+    const [abilitie,setAbilitie] = useState('')
 
     const {name, url} = props.data.item
     const pokemonNumber = url.replace('https://pokeapi.co/api/v2/pokemon/','').replace('/','')
     const imageURL = 'https://pokeres.bastionbot.org/images/pokemon/'+ pokemonNumber + '.png'
     
-    useEffect(() => {
+    
+
+   
+    useEffect (() => {
         fetch('https://pokeapi.co/api/v2/pokemon/' + String(name),{
             method: 'GET',
             headers :{
@@ -19,13 +23,15 @@ export default function Pokemon (props) {
           })
           .then(response =>response.json())
             .then(data => {
-               setPokemonAbilities(data.abilities)
+                setAbilitie(data.abilities)
+               
             })
     },[])
-
+        
     const getAbilities = () => {
-        return 'Overgrow, Speed'
+
     }
+
     const showPokemonDetails = () => {
         setModalVisible(!modalVisible)
     }
@@ -52,7 +58,7 @@ export default function Pokemon (props) {
                 </View>
                 <TouchableOpacity style={styles.outDetails}
                     onPress={showPokemonDetails}>
-                    <View>
+                    <View> 
                     </View>
                 </TouchableOpacity>
             </Modal>
