@@ -4,7 +4,7 @@ import {Modal,View,Image,Text, TouchableOpacity, StyleSheet} from 'react-native'
 export default function Pokemon (props) {
 
     const [modalVisible,setModalVisible] = useState(false)
-    const [pokemonAbilities, setPokemonAbilities] = useState([])
+    const [pokemonBaseExperience, setPokemonBaseExperience] = useState([])
     const [abilitie,setAbilitie] = useState('')
 
     const {name, url} = props.data.item
@@ -24,12 +24,29 @@ export default function Pokemon (props) {
           .then(response =>response.json())
             .then(data => {
                 setAbilitie(data.abilities)
-               
+                setPokemonBaseExperience(data.base_experience) 
             })
     },[])
         
-    const getAbilities = () => {
+    const capitalize = str => {
+        if (typeof str !== 'string') {
+            return '';
+        }
+        return str.charAt(0).toUpperCase() + str.substr(1);
+    }
 
+    const getAbilities =  () => {
+        let stringAbilities = ''
+        for (let i = 1; i < abilitie.length; i++ ) {
+            stringAbilities =  stringAbilities  + ' ' + capitalize(abilitie[i].ability.name)
+        }
+        if (stringAbilities !== '') {
+            return (<Text style={styles.modalAbilities}> {`Habilities:${stringAbilities }\nBase Experience: ${String(pokemonBaseExperience)} `}</Text> )
+        }
+        else {
+            return (<Text style={styles.modalAbilities}>Abilities not found</Text> )
+        }
+        
     }
 
     const showPokemonDetails = () => {
@@ -54,7 +71,7 @@ export default function Pokemon (props) {
                         source={{uri: imageURL}}/>
                     <Text style={styles.textNameModal}>
                         {'#' + pokemonNumber + ' - ' + name.toUpperCase()}</Text> 
-                    <Text style={styles.modalAbilities}>Habilities: {getAbilities()}</Text> 
+                        {getAbilities()}
                 </View>
                 <TouchableOpacity style={styles.outDetails}
                     onPress={showPokemonDetails}>
@@ -81,7 +98,7 @@ const styles = StyleSheet.create({
     },
     containerDetailsModal:{
         flex: 3, 
-        backgroundColor: '#f0f0ff', 
+        backgroundColor: '#FFFACD', 
         alignItems: 'center', 
         justifyContent:'center'
 
@@ -97,9 +114,10 @@ const styles = StyleSheet.create({
     },
     mainContainer:{
         alignItems:'center', 
+        justifyContent: 'center',
         marginVertical: 20, 
         marginHorizontal: 20, 
-        backgroundColor: '#EE82EE'
+        backgroundColor: '#00BFFF'
     },
     mainImage:{
         width:75, 
@@ -109,7 +127,9 @@ const styles = StyleSheet.create({
         marginTop: 15
     },
     modalAbilities:{
-        color: 'red',
-        fontSize: 20
+        color: '#191970',
+        fontSize: 15,
+        textAlign: 'center',
+        marginTop: 20
     }
 })
